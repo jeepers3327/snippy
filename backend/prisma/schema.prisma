@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String    @id @default(uuid())
+  name      String
+  avatarUrl String
+  username  String    @unique
+  password  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  comments  Comment[]
+  gists     Gist[]
+
+  @@map("users")
+}
+
+model Gist {
+  id          String     @id @default(uuid())
+  description String
+  isPrivate   Boolean?   @default(false)
+  authorId    String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  author      User?      @relation(fields: [authorId], references: [id])
+  comments    Comment[]
+  gistFiles   GistFile[]
+
+  @@map("gists")
+}
+
+model GistFile {
+  id       String  @id @default(uuid())
+  gistId   String?
+  filename String
+  snippet  String
+  language String
+  gist     Gist?   @relation(fields: [gistId], references: [id])
+
+  @@map("gist_files")
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  comment   String
+  userId    String?
+  gistId    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  gist      Gist?    @relation(fields: [gistId], references: [id])
+  user      User?    @relation(fields: [userId], references: [id])
+
+  @@map("comments")
+}
+
+model GistSearch {
+  id            String @unique
+  description   String
+  username      String
+  files         Json[]
+  commentCounts Int    @map("comment_counts")
+
+  @@map("gist_search")
+}
