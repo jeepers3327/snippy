@@ -1,0 +1,1 @@
+export { GistDetail } from './GistDetail';
