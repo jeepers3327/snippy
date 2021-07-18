@@ -1,5 +1,5 @@
-import { Controller, Delete, Post, Req, UseGuards } from '@nestjs/common';
-import { Request } from 'express';
+import { Controller, Delete, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Request, Response } from 'express';
 import { AuthenticatedGuard } from './guards/authenticated.guard';
 import { LocalAuthGuard } from './guards/local.guard';
 
@@ -13,8 +13,9 @@ export class AuthController {
 
   @UseGuards(AuthenticatedGuard)
   @Delete('logout')
-  async logout(@Req() req: Request) {
+  async logout(@Req() req: Request, @Res() res: Response) {
     req.logOut();
     req.session.cookie.maxAge = 0;
+    res.send({});
   }
 }

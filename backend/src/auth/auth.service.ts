@@ -12,14 +12,12 @@ export class AuthService {
     password: string,
   ): Promise<Omit<User, 'password'> | null> {
     const user = await this.userService.findOneByUsername(username);
-    console.log(user);
 
     if (!user) {
       throw new HttpException('User not found!', HttpStatus.NOT_FOUND);
     }
 
     const isValid = await argon2.verify(user.password, password);
-    console.log(isValid);
 
     if (isValid) {
       const { password, ...userInfo } = user;
