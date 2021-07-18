@@ -14,8 +14,9 @@ async function bootstrap() {
   const client = redis.createClient({ url: process.env.REDIS_URI });
   const RedisStore = connectRedis(session);
 
-  app.use(helmet());
   app.useGlobalPipes(new ValidationPipe());
+  app.enableCors({ credentials: true, origin: 'http://localhost:3000' });
+  app.use(helmet());
 
   app.use(
     session({
