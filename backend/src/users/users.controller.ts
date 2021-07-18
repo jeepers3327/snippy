@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { User } from '@prisma/client';
 import { Request } from 'express';
 import { AuthenticatedGuard } from '../auth/guards/authenticated.guard';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -8,16 +9,14 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private userService: UsersService) {}
 
-  @Get()
+  @Get('me')
   @UseGuards(AuthenticatedGuard)
-  async findAll() {
-    return this.userService.findAll();
+  async me(@Req() req: Request): Promise<Express.User> {
+    return req.user;
   }
 
   @Post()
-  async create(@Body('user') user: CreateUserDto) {
-    const result = await this.userService.create(user);
-
-    return result;
+  async create(@Body() user: CreateUserDto): Promise<User> {
+    return await this.userService.create(user);
   }
 }
