@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import logo from '../../../public/assets/logo.svg';
+import logo from '../../public/assets/logo.svg';
 import { logoutUser } from '../utils/api';
 
 type NavbarProp = {
