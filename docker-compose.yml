@@ -1,0 +1,67 @@
+version: "3.7"
+services:
+  database:
+    image: postgres:13-alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      APP_DB_NAME: snippy_prod
+      APP_DB_USER: jeepers3327
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d/
+      - postgres_data:/var/lib/postgresql/data/
+    expose: 
+      - 5432
+    networks: 
+      - webserver
+
+  sessions:
+    image: redis:6.2-alpine
+    volumes:
+      - redis_data:/redis/data
+    ports:
+      - 6379
+    networks: 
+      - webserver
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    env_file: ./backend/.env.production
+    depends_on:
+      - database
+      - sessions
+    networks: 
+      - webserver
+  frontend:
+    build: ./frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    networks: 
+      - webserver
+  proxy:
+    image: caddy:2.4.3-alpine
+    restart: unless-stopped
+    ports:
+      - 80:80
+    volumes:
+      - $PWD/Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on: 
+      - backend
+      - frontend
+    networks: 
+      - webserver
+
+volumes:
+  redis_data:
+  postgres_data:
+  caddy_data:
+  caddy_config:
+
+networks: 
+  webserver:
+    external: true
