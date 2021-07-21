@@ -1,0 +1,12 @@
+{
+   email heifurukawa1997@gmail.com
+   acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
+}
+
+snippy.blanknodes.com {
+  reverse_proxy frontend:3000
+}
+
+snippy.blanknodes.com/api {
+  reverse_proxy backend:4000  
+}
