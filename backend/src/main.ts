@@ -9,13 +9,13 @@ import * as helmet from 'helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const PORT = process.env.APP_PORT || 3000;
+  const PORT = process.env.APP_PORT || 4000;
 
   const client = redis.createClient({ url: process.env.REDIS_URI });
   const RedisStore = connectRedis(session);
 
   app.useGlobalPipes(new ValidationPipe());
-  app.enableCors({ credentials: true, origin: 'http://localhost:3000' });
+  app.enableCors({ credentials: true, origin: ['http://localhost:3000', 'https://snippy.blanknodes.com']});
   app.use(helmet());
 
   app.use(
