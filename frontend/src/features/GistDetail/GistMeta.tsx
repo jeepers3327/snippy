@@ -8,6 +8,7 @@ import {
 } from '@heroicons/react/outline';
 import Link from 'next/link';
 import Timeago from 'timeago-react';
+import { generateDownloadLink } from '../../utils/api';
 
 type GistMetaProps = {
   gist: Gist;
@@ -121,7 +122,7 @@ export const GistMeta: FunctionComponent<GistMetaProps> = ({
           </div>
           <div className="rounded-md flex text-gray-300 bg-gray-700 justify-center overflow-hidden w-full hidden md:block  md:w-auto">
             <a
-              href={`http://localhost:4000/files/${gist.id}/download`}
+              href={generateDownloadLink(gist.id)}
               role="button"
               className="border w-full md:rounded-tl-md md:rounded-bl-md border-gray-600 block py-1 px-3 focus:outline-none outline-none hover:border-gray-400"
             >

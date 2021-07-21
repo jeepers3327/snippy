@@ -186,3 +186,8 @@ export const checkAuthenticatedUser = async (headers: IncomingHttpHeaders) => {
     });
   return result;
 };
+
+// Files
+export const generateDownloadLink = (gistId: string) => {
+  return `${process.env.NEXT_PUBLIC_API_URL}/files/${gistId}/download`
+}
