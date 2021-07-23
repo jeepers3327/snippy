@@ -20,7 +20,7 @@ services:
     image: redis:6.2-alpine
     volumes:
       - redis_data:/redis/data
-    ports:
+    expose:
       - 6379
     networks: 
       - webserver
@@ -48,6 +48,7 @@ services:
     restart: unless-stopped
     ports:
       - 80:80
+      - 443:443
     volumes:
       - $PWD/Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
