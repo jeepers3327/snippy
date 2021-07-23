@@ -15,31 +15,37 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
   const gists = await fetchAllGists();
-  console.log(gists);
-  console.log(context.req.headers);
-  
-  let user;
 
-  console.log('Fetching current user');
-  console.log(context.req.headers.cookie);
-  console.log(await checkAuthenticatedUser(context.req.headers));
-
-  try {
-    user = await checkAuthenticatedUser(context.req.headers);
-    console.log(user);
-    return {
-      props: {
-        user,
-        gists,
-      },
-    };
-  } catch {
-    return {
-      props: {
-        gists,
-      },
-    };
+  return {
+    props: {
+      gists
+    }
   }
+  // console.log(gists);
+  // console.log(context.req.headers);
+  
+  // let user;
+
+  // console.log('Fetching current user');
+  // console.log(context.req.headers.cookie);
+  // console.log(await checkAuthenticatedUser(context.req.headers));
+
+  // try {
+  //   user = await checkAuthenticatedUser(context.req.headers);
+  //   console.log(user);
+  //   return {
+  //     props: {
+  //       user,
+  //       gists,
+  //     },
+  //   };
+  // } catch {
+  //   return {
+  //     props: {
+  //       gists,
+  //     },
+  //   };
+  // }
 };
 
 type PageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
