@@ -4,9 +4,11 @@
 }
 
 snippy.blanknodes.com {
-  reverse_proxy frontend:3000
-}
+  handle_path /api* {
+    reverse_proxy backend:4000 
+  }
 
-snippy.blanknodes.com/api {
-  reverse_proxy backend:4000  
+  handle {
+    reverse_proxy frontend:3000
+  }
 }
