@@ -4,44 +4,34 @@ import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 
 import { GistPreview } from '../features';
 import { Main } from '../templates/Main';
-import { fetchAllGists } from '../utils/api';
+import { checkAuthenticatedUser, fetchAllGists } from '../utils/api';
 
 interface Props {
   gists: PartialGist[];
   user?: User;
 }
 
-export const getServerSideProps: GetServerSideProps<Props> = async () => {
+export const getServerSideProps: GetServerSideProps<Props> = async (
+  context
+) => {
   const gists = await fetchAllGists();
+  let user;
 
-  return {
-    props: {
-      gists,
-    },
-  };
-  // console.log(gists);
-  // console.log(context.req.headers);
-  // let user;
-  // console.log('Fetching current user');
-  // console.log(context.req.headers.cookie);
-  // console.log(await checkAuthenticatedUser(context.req.headers));
-
-  // try {
-  //   user = await checkAuthenticatedUser(context.req.headers);
-  //   console.log(user);
-  //   return {
-  //     props: {
-  //       user,
-  //       gists,
-  //     },
-  //   };
-  // } catch {
-  //   return {
-  //     props: {
-  //       gists,
-  //     },
-  //   };
-  // }
+  try {
+    user = await checkAuthenticatedUser(context.req.headers);
+    return {
+      props: {
+        user,
+        gists,
+      },
+    };
+  } catch {
+    return {
+      props: {
+        gists,
+      },
+    };
+  }
 };
 
 type PageProps = InferGetServerSidePropsType<typeof getServerSideProps>;
