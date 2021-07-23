@@ -17,9 +17,11 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   const gists = await fetchAllGists();
   console.log(gists);
   console.log(context.req.headers);
+  
   let user;
 
   console.log('Fetching current user');
+  console.log(context.req.headers.cookie);
   console.log(await checkAuthenticatedUser(context.req.headers));
 
   try {
