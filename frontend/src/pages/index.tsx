@@ -16,7 +16,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 ) => {
   const gists = await fetchAllGists();
   console.log(gists);
-  console.log(context.req.headers)
+  console.log(context.req.headers);
   let user;
 
   try {
