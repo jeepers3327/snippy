@@ -15,6 +15,10 @@ Learning NextJs and NestJS by making a Github Gists clone
 - Synthax highlighting (supported programming languages)
 - Rating gists (Stars)
 
+## Software versions used
+- Postgres 13.3
+- NodeJS 16.5.0
+- Redis 6.2.4
 
 ## Tech stack
 - NextJs
