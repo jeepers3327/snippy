@@ -19,10 +19,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   console.log(context.req.headers);
   let user;
 
-
   console.log('Fetching current user');
   console.log(await checkAuthenticatedUser(context.req.headers));
-  
 
   try {
     user = await checkAuthenticatedUser(context.req.headers);
