@@ -4,16 +4,14 @@ import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 
 import { GistPreview } from '../features';
 import { Main } from '../templates/Main';
-import { checkAuthenticatedUser, fetchAllGists } from '../utils/api';
+import { fetchAllGists } from '../utils/api';
 
 interface Props {
   gists: PartialGist[];
   user?: User;
 }
 
-export const getServerSideProps: GetServerSideProps<Props> = async (
-  context
-) => {
+export const getServerSideProps: GetServerSideProps<Props> = async () => {
   const gists = await fetchAllGists();
 
   return {
